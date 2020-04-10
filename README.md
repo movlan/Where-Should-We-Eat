@@ -1,14 +1,28 @@
-# Project-4
+# Where Should We Eat
 
-☐ **App Title:** Contains a description of what the app does and optional background info.
+☐ **App Title:**
 
-☐ **Screenshot(s):** A screenshot of your app's landing page and any other screenshots of interest.
+Where Should We Eat is APP that helps its users to decide where to go out to eat.
 
-☐ **Technologies Used**: List of the technologies used.
+☐ **Screenshot(s):**
 
-☐ **Getting Started**: That Includes:
+Coming soon...
 
-- A link to the **deployed app** (Heroku)
-- A link to the **Trello board** used for the project's planning that includes user stories, wireframes & an ERD.
+☐ **Technologies Used**
 
-☐ **Next Steps**: Planned future enhancements (icebox items).
+This is a full stack app using MERN stack
+So list of the technologies used is:
+
+- MangoDB
+- Express.js
+- React
+- Node.js
+
+☐ **Getting Started**
+
+- Deployed app [Coming soon...](soon) (Heroku)
+- [Trello board](https://trello.com/b/HqDPXDZA/where-should-we-eat)
+
+☐ **Next Steps**
+
+- Make the app
