@@ -15,11 +15,11 @@
 /where-should-we-eat/build
 
 # misc
-/where-should-we-eat.DS_Store
-/where-should-we-eat.env.local
-/where-should-we-eat.env.development.local
-/where-should-we-eat.env.test.local
-/where-should-we-eat.env.production.local
+/where-should-we-eat/.DS_Store
+/where-should-we-eat/.env.local
+/where-should-we-eat/.env.development.local
+/where-should-we-eat/.env.test.local
+/where-should-we-eat/.env.production.local
 
 npm-debug.log*
 yarn-debug.log*
