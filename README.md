@@ -1,10 +1,10 @@
 # Where Should We Eat
 
-☐ **App Title:**
+☐ **App Title**
 
 Where Should We Eat is APP that helps its users to decide where to go out to eat.
 
-☐ **Screenshot(s):**
+☐ **Screenshot(s)**
 
 Coming soon...
 
@@ -17,6 +17,8 @@ So list of the technologies used is:
 - Express.js
 - React
 - Node.js
+
+API [Zomato](https://developers.zomato.com/api)
 
 ☐ **Getting Started**
 
