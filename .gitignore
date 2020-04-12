@@ -2,6 +2,7 @@
 
 # dependencies
 /where-should-we-eat/node_modules
+node_modules
 /where-should-we-eat/.pnp
 .pnp.js
 
@@ -13,6 +14,7 @@
 
 # production
 /where-should-we-eat/build
+/where-should-we-eat/.env
 
 # misc
 /where-should-we-eat/.DS_Store
