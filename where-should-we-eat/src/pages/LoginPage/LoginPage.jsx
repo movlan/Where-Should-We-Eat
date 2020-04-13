@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-import userService from "../utils/userService";
+import userService from "../../utils/userService";
 
 class LoginPage extends Component {
   state = {
     email: "",
-    pswd: "",
+    password: "",
   };
 
   handleChange = (e) => {
@@ -18,6 +18,8 @@ class LoginPage extends Component {
     e.preventDefault();
     try {
       await userService.login(this.state);
+      this.props.handleSignupOrLogin();
+      this.props.history.push("/");
     } catch (err) {
       console.log(err);
     }
@@ -38,7 +40,7 @@ class LoginPage extends Component {
           <input
             type="password"
             placeholder="Password"
-            name="pswd"
+            name="password"
             onChange={this.handleChange}
           ></input>
         </div>

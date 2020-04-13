@@ -16,6 +16,9 @@ app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/users", require("./routes/users"));
 
+// Mount our custom auth middleware to protect routes below it
+app.use(require("./config/auth"));
+
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
@@ -25,3 +28,13 @@ const port = 3001;
 app.listen(port, function () {
   console.log(`Express app running on port ${port}`);
 });
+
+/*--- Use following to protect routes in routes ---*/
+
+// router.post('/', checkAuth, scoresCtrl.create);
+
+// /*----- Helper Functions -----*/
+// function checkAuth(req, res, next) {
+//   if (req.user) return next();
+//   return res.status(401).json({msg: 'Not Authorized'});
+// }
