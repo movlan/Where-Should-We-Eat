@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
-const favicon = require("serve-favicon");
+// const favicon = require("serve-favicon");
 
 require("dotenv").config();
 require("./config/database");
@@ -17,7 +17,8 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use("/users", require("./routes/users"));
 
 // Mount our custom auth middleware to protect routes below it
-app.use(require("./config/auth"));
+// app.use(require("./config/auth"));
+app.use("/api/zomato", require("./routes/api/zomato"));
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));

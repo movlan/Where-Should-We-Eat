@@ -5,6 +5,9 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import { Switch, Route } from "react-router-dom";
 import userService from "./utils/userService";
 import NavBar from "./components/NavBar/NavBar";
+import { getCurrentLatLng } from "./services/geolocation";
+import { getLocationInfo } from "./services/zomato-api";
+import LocalInfo from "./components/LocalInfo/LocalInfo";
 
 class App extends Component {
   constructor() {
@@ -23,11 +26,18 @@ class App extends Component {
     this.setState({ user: userService.getUser() });
   };
 
+  async componentDidMount() {
+    const { lat, lon } = await getCurrentLatLng();
+    const locInfo = await getLocationInfo(lat, lon);
+    this.setState({ locInfo });
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Where Should We Eat?</h1>
         <NavBar handleLogout={this.handleLogout} user={this.state.user} />
+        <LocalInfo locInfo={this.state.locInfo} />
         <Switch>
           <Route
             exact
