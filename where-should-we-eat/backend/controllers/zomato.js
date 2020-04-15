@@ -3,29 +3,76 @@ var request = require("request");
 const KEY = process.env.ZOMATO_API_KEY;
 const REQ_URL = "https://developers.zomato.com/api/v2.1/";
 
-async function cats(req, res) {
+function categories(req, res) {
   try {
-    const cats = await fetch(REQ_URL + "establishments");
+    const url = `${REQ_URL}categories?lat=${req.body.lat}&lon=${req.body.lon}`;
+    request.get(
+      { url, headers: { Accept: "application/json", "user-key": KEY } },
+      function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          let data = JSON.parse(body);
+          return res.send(data.categories);
+        }
+      }
+    );
   } catch (error) {}
 }
 
-async function geocode(req, res) {
-  console.log(req);
-  const url = `${REQ_URL}geocode?lat=${req.body.lat}&lon=${req.body.lon}`;
-  console.log(url);
-  request.get(
-    { url, headers: { Accept: "application/json", "user-key": KEY } },
-    function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        let data = JSON.parse(body);
-        // console.log(data)
-        return res.send(data);
+function geocode(req, res) {
+  try {
+    let count = 20;
+    const url = `${REQ_URL}geocode?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}`;
+    request.get(
+      { url, headers: { Accept: "application/json", "user-key": KEY } },
+      function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          let data = JSON.parse(body);
+          return res.send(data);
+        }
       }
-    }
-  );
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function cuisines(req, res) {
+  try {
+    const url = `${REQ_URL}cuisines?lat=${req.body.lat}&lon=${req.body.lon}`;
+    request.get(
+      { url, headers: { Accept: "application/json", "user-key": KEY } },
+      function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          let data = JSON.parse(body);
+          return res.send(data);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function search(req, res) {
+  try {
+    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}`;
+    request.get(
+      { url, headers: { Accept: "application/json", "user-key": KEY } },
+      function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          let data = JSON.parse(body);
+          return res.send(data.restaurants);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 module.exports = {
-  cats,
+  categories,
   geocode,
+  cuisines,
+  search,
 };

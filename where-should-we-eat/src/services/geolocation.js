@@ -1,4 +1,4 @@
-export function getCurrentLatLng() {
+export function getCurrentLatLon() {
   // Wrap getCurrentPosition to return a promise
   return new Promise((resolve) => {
     navigator.geolocation.getCurrentPosition((pos) =>
