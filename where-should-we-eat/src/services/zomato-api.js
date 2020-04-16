@@ -25,11 +25,11 @@ async function getCuisines(lat, lon) {
   if (cuisines) return cuisines.json();
 }
 
-async function getSearch(lat, lon, radius, category) {
+async function getSearch(lat, lon, establishment, category) {
   const restaurants = await fetch("/api/zomato/search", {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon, radius, category }),
+    body: JSON.stringify({ lat, lon, establishment, category }),
   });
   if (restaurants) return restaurants.json();
 }

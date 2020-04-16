@@ -68,9 +68,13 @@ class SignupForm extends Component {
             name="passwordConf"
             onChange={this.handleChange}
           />
-          <button disabled={this.isFormInvalid()}>Sign Up</button>
+          <button className="btn" disabled={this.isFormInvalid()}>
+            Sign Up
+          </button>
           &nbsp;&nbsp;
-          <Link to="/">Cancel</Link>
+          <Link className="btn" to="/">
+            Cancel
+          </Link>
         </form>
       </div>
     );

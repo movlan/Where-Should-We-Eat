@@ -45,7 +45,7 @@ class LoginPage extends Component {
           ></input>
         </div>
         <div>
-          <button>Log In</button>
+          <button className="btn">Log In</button>
         </div>
       </form>
     );

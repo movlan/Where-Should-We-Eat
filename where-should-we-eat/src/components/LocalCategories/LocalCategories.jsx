@@ -7,22 +7,15 @@ export const LocalCategories = (props) => {
 
   let categories =
     props.localCategories.length > 0 ? (
-      <div>
-        <h2>Local Categories</h2>
-        <ul style={{ listStyleType: "none" }}>
-          {props.localCategories.map((cat) => (
-            <li
-              key={cat.categories.id}
-              onClick={() => handleClick(cat.categories.id)}
-            >
-              {cat.categories.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <form>
+        <label>
+          Pick selectCategory
+          <select>{this.options}</select>
+        </label>
+      </form>
     ) : (
       <p>loading...</p>
     );
 
-  return <div>{props.restaurants.length === 0 ? categories : null}</div>;
+  return <div>{categories}</div>;
 };

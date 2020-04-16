@@ -55,7 +55,8 @@ function cuisines(req, res) {
 function search(req, res) {
   try {
     let count = 20;
-    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}&radius=${req.body.radius}`;
+    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}&establishment_type=${req.body.establishment}`;
+    console.log(url);
     request.get(
       { url, headers: { Accept: "application/json", "user-key": KEY } },
       function (error, response, body) {

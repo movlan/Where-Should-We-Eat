@@ -16,7 +16,7 @@ import {
 import LocalInfo from "./components/LocalInfo/LocalInfo";
 import { LocalCategories } from "./components/LocalCategories/LocalCategories";
 import { RestaurantsList } from "./components/RestaurantsList/RestaurantsList";
-import DistancePicker from "./components/DistancePicker/DistancePicker";
+import { LocalEstablishments } from "./components/LocalEstablishments/LocalEstablishments";
 
 class App extends Component {
   constructor() {
@@ -27,6 +27,9 @@ class App extends Component {
       restaurants: [],
       removedRestaurantsList: [],
       establishments: [],
+      cuisines: [],
+      establishmentId: null,
+      categoryId: null,
       radius: 4000,
     };
   }
@@ -41,11 +44,27 @@ class App extends Component {
   };
 
   selectCategory = async (id) => {
+    this.setState({ categoryId: id }, () => this.searchRestaurants());
+    // this.searchRestaurants();
+  };
+
+  selectEstablishment = async (id) => {
+    this.setState({ establishmentId: id }, () => this.searchRestaurants());
+    // this.searchRestaurants();
+  };
+
+  searchRestaurants = async () => {
+    console.log(
+      this.state.lat,
+      this.state.lon,
+      this.state.establishmentId,
+      this.state.categoryId
+    );
     const restaurants = await getSearch(
       this.state.lat,
       this.state.lon,
-      this.state.radius,
-      id
+      this.state.establishmentId,
+      this.state.categoryId
     );
     this.setState({ restaurants });
   };
@@ -86,8 +105,8 @@ class App extends Component {
     const { lat, lon } = await getCurrentLatLon();
     const localInfo = await getGeocode(lat, lon);
     const localCategories = await getCategories(lat, lon);
-    const cuisines = await getCuisines(lat, lon);
     const establishments = await getEstablishments(lat, lon);
+    const cuisines = await getCuisines(lat, lon);
     this.setState({
       lat,
       lon,
@@ -101,21 +120,26 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Where Should We Eat?</h1>
         <NavBar handleLogout={this.handleLogout} user={this.state.user} />
         <Switch>
           <Route
             exact
             path="/"
             render={({ history }) => (
-              <div>
-                <LocalInfo localInfo={this.state.localInfo} />
-                <DistancePicker changeSearchRadius={this.changeSearchRadius} />
-                <LocalCategories
-                  localCategories={this.state.localCategories}
-                  selectCategory={this.selectCategory}
-                  restaurants={this.state.restaurants}
-                />
+              <div className="container">
+                <div className="row">
+                  <LocalInfo localInfo={this.state.localInfo} />
+                  <LocalCategories
+                    localCategories={this.state.localCategories}
+                    selectCategory={this.selectCategory}
+                    restaurants={this.state.restaurants}
+                  />
+                  <LocalEstablishments
+                    localEstablishments={this.state.establishments}
+                    selectEstablishment={this.selectEstablishment}
+                    restaurants={this.state.restaurants}
+                  />
+                </div>
                 <RestaurantsList
                   restaurants={this.state.restaurants}
                   removedRestaurantsList={this.state.removedRestaurantsList}

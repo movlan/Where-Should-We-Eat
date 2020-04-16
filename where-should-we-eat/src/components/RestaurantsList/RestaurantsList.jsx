@@ -1,41 +1,49 @@
 import React from "react";
 
 export const RestaurantsList = (props) => {
-  let removedRestaurants =
-    props.removedRestaurantsList.length > 0 ? (
-      <div>
-        <h2>List of Removed RestaurantsList</h2>
-        <ul style={{ listStyleType: "none" }}>
-          {props.removedRestaurantsList.map((restaurant) => (
-            <li
-              key={restaurant.restaurant.id}
-              onClick={() => props.addRestaurant(restaurant.restaurant.id)}
-            >
-              {restaurant.restaurant.name}
-            </li>
-          ))}
-        </ul>
+  let removedRestaurants = (
+    <div className="col s12 m6">
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">Removed Restaurants</span>
+          <div className="collection">
+            {props.removedRestaurantsList.map((restaurant) => (
+              <p
+                className="collection-item"
+                key={restaurant.restaurant.id}
+                onClick={() => props.addRestaurant(restaurant.restaurant.id)}
+              >
+                {restaurant.restaurant.name}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
-    ) : null;
+    </div>
+  );
 
-  let restaurants =
-    props.restaurants.length > 0 ? (
-      <div>
-        <h2>List of restaurants</h2>
-        <ul style={{ listStyleType: "none" }}>
-          {props.restaurants.map((restaurant) => (
-            <li
-              key={restaurant.restaurant.id}
-              onClick={() => props.removeRestaurant(restaurant.restaurant.id)}
-            >
-              {restaurant.restaurant.name}
-            </li>
-          ))}
-        </ul>
+  let restaurants = (
+    <div className="col s12 m6">
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">List of restaurants</span>
+          <div className="collection">
+            {props.restaurants.map((restaurant) => (
+              <p
+                className="collection-item"
+                key={restaurant.restaurant.id}
+                onClick={() => props.removeRestaurant(restaurant.restaurant.id)}
+              >
+                {restaurant.restaurant.name}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
-    ) : null;
+    </div>
+  );
   return (
-    <div>
+    <div className="row">
       {restaurants}
       {removedRestaurants}
     </div>
