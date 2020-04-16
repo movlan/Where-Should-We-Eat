@@ -1,4 +1,4 @@
-async function getLocalCategories(lat, lon) {
+async function getCategories(lat, lon) {
   const categories = await fetch("/api/zomato/categories", {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
@@ -7,7 +7,7 @@ async function getLocalCategories(lat, lon) {
   if (categories) return categories.json();
 }
 
-async function getLocationInfo(lat, lon) {
+async function getGeocode(lat, lon) {
   const info = await fetch("/api/zomato/geocode", {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
@@ -16,7 +16,7 @@ async function getLocationInfo(lat, lon) {
   if (info) return info.json();
 }
 
-async function getLocalCuisines(lat, lon) {
+async function getCuisines(lat, lon) {
   const cuisines = await fetch("/api/zomato/cuisines", {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
@@ -25,18 +25,28 @@ async function getLocalCuisines(lat, lon) {
   if (cuisines) return cuisines.json();
 }
 
-async function getRestaurantFromCategory(lat, lon, category) {
+async function getSearch(lat, lon, radius, category) {
   const restaurants = await fetch("/api/zomato/search", {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon, category }),
+    body: JSON.stringify({ lat, lon, radius, category }),
   });
   if (restaurants) return restaurants.json();
 }
 
+async function getEstablishments(lat, lon) {
+  const establishments = await fetch("/api/zomato/establishments", {
+    method: "POST",
+    headers: new Headers({ "Content-Type": "application/json" }),
+    body: JSON.stringify({ lat, lon }),
+  });
+  if (establishments) return establishments.json();
+}
+
 module.exports = {
-  getLocalCategories,
-  getLocationInfo,
-  getLocalCuisines,
-  getRestaurantFromCategory,
+  getCategories,
+  getGeocode,
+  getCuisines,
+  getSearch,
+  getEstablishments,
 };

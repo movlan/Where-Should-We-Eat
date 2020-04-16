@@ -7,12 +7,16 @@ import userService from "./utils/userService";
 import NavBar from "./components/NavBar/NavBar";
 import { getCurrentLatLon } from "./services/geolocation";
 import {
-  getLocationInfo,
-  getLocalCategories,
-  getLocalCuisines,
-  getRestaurantFromCategory,
+  getGeocode,
+  getCategories,
+  getCuisines,
+  getSearch,
+  getEstablishments,
 } from "./services/zomato-api";
 import LocalInfo from "./components/LocalInfo/LocalInfo";
+import { LocalCategories } from "./components/LocalCategories/LocalCategories";
+import { RestaurantsList } from "./components/RestaurantsList/RestaurantsList";
+import DistancePicker from "./components/DistancePicker/DistancePicker";
 
 class App extends Component {
   constructor() {
@@ -22,7 +26,8 @@ class App extends Component {
       localCategories: [],
       restaurants: [],
       removedRestaurantsList: [],
-      radius: 2,
+      establishments: [],
+      radius: 4000,
     };
   }
 
@@ -36,27 +41,30 @@ class App extends Component {
   };
 
   selectCategory = async (id) => {
-    const restaurants = await getRestaurantFromCategory(
+    const restaurants = await getSearch(
       this.state.lat,
       this.state.lon,
+      this.state.radius,
       id
     );
     this.setState({ restaurants });
   };
 
   removeRestaurant = (id) => {
-    let removedRestaurant = this.state.restaurants.filter(
-      (restaurant) => restaurant.restaurant.id === id
-    );
-    let removedList = this.state.removedRestaurantsList;
-    removedList.push(removedRestaurant[0]);
-    let copyOfRestaurants = this.state.restaurants.filter(
-      (restaurant) => restaurant.restaurant.id !== id
-    );
-    this.setState({
-      restaurants: copyOfRestaurants,
-      removedRestaurantsList: removedList,
-    });
+    if (this.state.restaurants.length > 1) {
+      let removedRestaurant = this.state.restaurants.filter(
+        (restaurant) => restaurant.restaurant.id === id
+      );
+      let removedList = this.state.removedRestaurantsList;
+      removedList.push(removedRestaurant[0]);
+      let copyOfRestaurants = this.state.restaurants.filter(
+        (restaurant) => restaurant.restaurant.id !== id
+      );
+      this.setState({
+        restaurants: copyOfRestaurants,
+        removedRestaurantsList: removedList,
+      });
+    }
   };
 
   addRestaurant = (id) => {
@@ -76,10 +84,18 @@ class App extends Component {
 
   async componentDidMount() {
     const { lat, lon } = await getCurrentLatLon();
-    const localInfo = await getLocationInfo(lat, lon);
-    const localCategories = await getLocalCategories(lat, lon);
-    const cuisines = await getLocalCuisines(lat, lon);
-    this.setState({ lat, lon, localInfo, localCategories, cuisines });
+    const localInfo = await getGeocode(lat, lon);
+    const localCategories = await getCategories(lat, lon);
+    const cuisines = await getCuisines(lat, lon);
+    const establishments = await getEstablishments(lat, lon);
+    this.setState({
+      lat,
+      lon,
+      localInfo,
+      localCategories,
+      cuisines,
+      establishments,
+    });
   }
 
   render() {
@@ -92,15 +108,21 @@ class App extends Component {
             exact
             path="/"
             render={({ history }) => (
-              <LocalInfo
-                localInfo={this.state.localInfo}
-                localCategories={this.state.localCategories}
-                selectCategory={this.selectCategory}
-                removeRestaurant={this.removeRestaurant}
-                addRestaurant={this.addRestaurant}
-                restaurants={this.state.restaurants}
-                removedRestaurantsList={this.state.removedRestaurantsList}
-              />
+              <div>
+                <LocalInfo localInfo={this.state.localInfo} />
+                <DistancePicker changeSearchRadius={this.changeSearchRadius} />
+                <LocalCategories
+                  localCategories={this.state.localCategories}
+                  selectCategory={this.selectCategory}
+                  restaurants={this.state.restaurants}
+                />
+                <RestaurantsList
+                  restaurants={this.state.restaurants}
+                  removedRestaurantsList={this.state.removedRestaurantsList}
+                  removeRestaurant={this.removeRestaurant}
+                  addRestaurant={this.addRestaurant}
+                />
+              </div>
             )}
           />
           <Route

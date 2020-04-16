@@ -6,6 +6,7 @@ router.post("/categories", zomatoCtrl.categories);
 router.post("/geocode", zomatoCtrl.geocode);
 router.post("/cuisines", zomatoCtrl.cuisines);
 router.post("/search", zomatoCtrl.search);
+router.post("/establishments", zomatoCtrl.establishments);
 
 /*----- Helper Functions -----*/
 function checkAuth(req, res, next) {

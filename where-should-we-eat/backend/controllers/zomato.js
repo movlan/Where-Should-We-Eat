@@ -20,8 +20,7 @@ function categories(req, res) {
 
 function geocode(req, res) {
   try {
-    let count = 20;
-    const url = `${REQ_URL}geocode?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}`;
+    const url = `${REQ_URL}geocode?lat=${req.body.lat}&lon=${req.body.lon}`;
     request.get(
       { url, headers: { Accept: "application/json", "user-key": KEY } },
       function (error, response, body) {
@@ -55,7 +54,8 @@ function cuisines(req, res) {
 
 function search(req, res) {
   try {
-    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}`;
+    let count = 20;
+    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}&radius=${req.body.radius}`;
     request.get(
       { url, headers: { Accept: "application/json", "user-key": KEY } },
       function (error, response, body) {
@@ -70,9 +70,27 @@ function search(req, res) {
   }
 }
 
+function establishments(req, res) {
+  try {
+    const url = `${REQ_URL}establishments?lat=${req.body.lat}&lon=${req.body.lon}`;
+    request.get(
+      { url, headers: { Accept: "application/json", "user-key": KEY } },
+      function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          let data = JSON.parse(body);
+          return res.send(data.establishments);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   categories,
   geocode,
   cuisines,
   search,
+  establishments,
 };
