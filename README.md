@@ -12,11 +12,11 @@ Where Should We Eat is APP that helps its users to decide where to go out to eat
 
 **_Sign up page_**
 
-[Signup Page]('./imgs/Annotation 2020-04-17 130224.png')
+<img src="./imgs/Annotation 2020-04-17 130137.png">
 
 **_Main page_**
 
-[Main Page]('./imgs/Annotation 2020-04-17 130137.png')
+<img src="./imgs/Annotation 2020-04-17 130224.png">
 
 ☐ **Technologies Used**
 
