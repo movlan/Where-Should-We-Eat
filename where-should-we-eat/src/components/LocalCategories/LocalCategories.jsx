@@ -1,21 +1,33 @@
 import React from "react";
 
 export const LocalCategories = (props) => {
-  function handleClick(id) {
-    props.selectCategory(id);
+  function handleChange(e) {
+    props.selectCategory(e.target.value);
   }
 
-  let categories =
-    props.localCategories.length > 0 ? (
-      <form>
-        <label>
-          Pick selectCategory
-          <select>{this.options}</select>
-        </label>
-      </form>
-    ) : (
-      <p>loading...</p>
-    );
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
 
-  return <div>{categories}</div>;
+  return (
+    <div className="col s12 m6">
+      <form onSubmit={handleSubmit}>
+        <br />
+        <select className="browser-default" onChange={(e) => handleChange(e)}>
+          <option value="" disabled selected>
+            Choose Category
+          </option>
+          {props.localCategories.map((cat) => (
+            <option
+              key={cat.categories.id}
+              value={cat.categories.id}
+              // onClick={() => props.selectCategory(cat.categories.id)}
+            >
+              {cat.categories.name}
+            </option>
+          ))}
+        </select>
+      </form>
+    </div>
+  );
 };

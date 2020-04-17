@@ -1,6 +1,6 @@
 import React from "react";
 
-function LocalInfo(props) {
+export const LocalInfo = (props) => {
   let info = props.localInfo ? (
     <div className="card">
       <div className="card-content">
@@ -9,11 +9,11 @@ function LocalInfo(props) {
         <p>City: {props.localInfo.popularity.city}</p>
         <p>Neighborhood: {props.localInfo.popularity.subzone}</p>
         <p>Top cuisines: </p>
-        <div className="collection">
+        <div>
           {props.localInfo.popularity.top_cuisines.map((cuisines, i) => (
-            <p className="collection-item" key={i}>
+            <span className="collection-item" key={i}>
               {cuisines}
-            </p>
+            </span>
           ))}
         </div>
       </div>
@@ -22,7 +22,5 @@ function LocalInfo(props) {
     <p>loading...</p>
   );
 
-  return <div className="col s12 m4">{info}</div>;
-}
-
-export default LocalInfo;
+  return <div className="col s12">{info}</div>;
+};

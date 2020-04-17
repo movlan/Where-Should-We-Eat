@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Switch, Route } from "react-router-dom";
+import M from "materialize-css/dist/js/materialize.min.js";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
-import { Switch, Route } from "react-router-dom";
+import { LocalInfo } from "./components/LocalInfo/LocalInfo";
+import { LocalCategories } from "./components/LocalCategories/LocalCategories";
+import { RestaurantsList } from "./components/RestaurantsList/RestaurantsList";
+import { LocalEstablishments } from "./components/LocalEstablishments/LocalEstablishments";
 import userService from "./utils/userService";
 import NavBar from "./components/NavBar/NavBar";
 import { getCurrentLatLon } from "./services/geolocation";
@@ -13,10 +17,6 @@ import {
   getSearch,
   getEstablishments,
 } from "./services/zomato-api";
-import LocalInfo from "./components/LocalInfo/LocalInfo";
-import { LocalCategories } from "./components/LocalCategories/LocalCategories";
-import { RestaurantsList } from "./components/RestaurantsList/RestaurantsList";
-import { LocalEstablishments } from "./components/LocalEstablishments/LocalEstablishments";
 
 class App extends Component {
   constructor() {
@@ -30,7 +30,6 @@ class App extends Component {
       cuisines: [],
       establishmentId: null,
       categoryId: null,
-      radius: 4000,
     };
   }
 
@@ -102,6 +101,8 @@ class App extends Component {
   };
 
   async componentDidMount() {
+    let sidenav = document.querySelector(".sidenav");
+    M.Sidenav.init(sidenav, {});
     const { lat, lon } = await getCurrentLatLon();
     const localInfo = await getGeocode(lat, lon);
     const localCategories = await getCategories(lat, lon);
@@ -130,11 +131,13 @@ class App extends Component {
                 <div className="row">
                   <LocalInfo localInfo={this.state.localInfo} />
                   <LocalCategories
+                    categoryId={this.state.categoryId}
                     localCategories={this.state.localCategories}
                     selectCategory={this.selectCategory}
                     restaurants={this.state.restaurants}
                   />
                   <LocalEstablishments
+                    establishmentId={this.state.establishmentId}
                     localEstablishments={this.state.establishments}
                     selectEstablishment={this.selectEstablishment}
                     restaurants={this.state.restaurants}

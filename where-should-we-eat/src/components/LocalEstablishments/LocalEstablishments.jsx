@@ -1,31 +1,33 @@
 import React from "react";
 
 export const LocalEstablishments = (props) => {
-  let establishments =
-    props.localEstablishments.length > 0 ? (
-      <div className="col s12 m4">
-        <div className="card">
-          <div className="card-content">
-            <span className="card-title">Local Establishments</span>
-            <div className="collection">
-              {props.localEstablishments.map((establishment) => (
-                <p
-                  className="collection-item"
-                  key={establishment.establishment.id}
-                  onClick={() =>
-                    props.selectEstablishment(establishment.establishment.id)
-                  }
-                >
-                  {establishment.establishment.name}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    ) : (
-      <p>loading...</p>
-    );
+  function handleChange(e) {
+    props.selectEstablishment(e.target.value);
+  }
 
-  return <div>{establishments}</div>;
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  return (
+    <div className="col s12 m6">
+      <form onSubmit={handleSubmit}>
+        <br />
+        <select className="browser-default" onChange={(e) => handleChange(e)}>
+          <option value="" disabled selected>
+            Choose Establishment Type
+          </option>
+          {props.localEstablishments.map((establishment) => (
+            <option
+              key={establishment.establishment.id}
+              value={establishment.establishment.id}
+              // onClick={() => props.selectCategory(cat.categories.id)}
+            >
+              {establishment.establishment.name}
+            </option>
+          ))}
+        </select>
+      </form>
+    </div>
+  );
 };

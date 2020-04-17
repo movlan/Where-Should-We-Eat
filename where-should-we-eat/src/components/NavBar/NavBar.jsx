@@ -5,12 +5,12 @@ const NavBar = (props) => {
   let userLinks = props.user ? (
     <>
       <li>
+        <span>Logged In User, {props.user.name}</span>
+      </li>
+      <li>
         <Link to="" onClick={props.handleLogout}>
           LOG OUT
         </Link>
-      </li>
-      <li>
-        <span>WELCOME, {props.user.name}</span>
       </li>
     </>
   ) : (
