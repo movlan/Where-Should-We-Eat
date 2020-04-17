@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use("/users", require("./backend/routes/users"));
 
 // Mount our custom auth middleware to protect routes below it
-// app.use(require("./backend/config/auth"));
+app.use(require("./backend/config/auth"));
 app.use("/api/zomato", require("./backend/routes/api/zomato"));
 
 app.get("/*", function (req, res) {

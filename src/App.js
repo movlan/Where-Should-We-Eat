@@ -44,21 +44,13 @@ class App extends Component {
 
   selectCategory = async (id) => {
     this.setState({ categoryId: id }, () => this.searchRestaurants());
-    // this.searchRestaurants();
   };
 
   selectEstablishment = async (id) => {
     this.setState({ establishmentId: id }, () => this.searchRestaurants());
-    // this.searchRestaurants();
   };
 
   searchRestaurants = async () => {
-    console.log(
-      this.state.lat,
-      this.state.lon,
-      this.state.establishmentId,
-      this.state.categoryId
-    );
     const restaurants = await getSearch(
       this.state.lat,
       this.state.lon,

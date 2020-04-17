@@ -4,9 +4,19 @@
 
 Where Should We Eat is APP that helps its users to decide where to go out to eat.
 
+1. User selects category, type of place, and cuisines
+2. Select restaurants that user doesn't like
+3. When there is only one restaurant left that will me the winner restaurant.
+
 ☐ **Screenshot(s)**
 
-Coming soon...
+**_Sign up page_**
+
+[Signup Page]('./imgs/Annotation 2020-04-17 130224.png')
+
+**_Main page_**
+
+[Main Page]('./imgs/Annotation 2020-04-17 130137.png')
 
 ☐ **Technologies Used**
 
@@ -17,14 +27,19 @@ So list of the technologies used is:
 - Express.js
 - React
 - Node.js
+- Materialize
 
-API [Zomato](https://developers.zomato.com/api)
+- API [Zomato](https://developers.zomato.com/api)
 
 ☐ **Getting Started**
 
-- Deployed app [Coming soon...](soon) (Heroku)
+- Deployed app at [Heroku](https://wswe-app.herokuapp.com/)
 - [Trello board](https://trello.com/b/HqDPXDZA/where-should-we-eat)
 
 ☐ **Next Steps**
 
-- Make the app
+- As a User, I want to be able to favorite or dislike restaurants
+- As a User, I want to be able to invite a person to choose restaurant with
+- Find investor for this app
+- Make fortune
+- Live somewhere in the island
