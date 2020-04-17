@@ -4,7 +4,7 @@ const logger = require("morgan");
 // const favicon = require("serve-favicon");
 
 require("dotenv").config();
-require("./config/database");
+require("./backend/config/database");
 
 const app = express();
 
@@ -14,11 +14,11 @@ app.use(express.json());
 // app.use(favicon(path.join(__dirname, "build", "favicon.ico")));
 app.use(express.static(path.join(__dirname, "build")));
 
-app.use("/users", require("./routes/users"));
+app.use("/users", require("./backend/routes/users"));
 
 // Mount our custom auth middleware to protect routes below it
-// app.use(require("./config/auth"));
-app.use("/api/zomato", require("./routes/api/zomato"));
+// app.use(require("./backend/config/auth"));
+app.use("/api/zomato", require("./backend/routes/api/zomato"));
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));

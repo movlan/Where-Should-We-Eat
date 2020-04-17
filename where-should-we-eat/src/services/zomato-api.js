@@ -43,10 +43,4 @@ async function getEstablishments(lat, lon) {
   if (establishments) return establishments.json();
 }
 
-module.exports = {
-  getCategories,
-  getGeocode,
-  getCuisines,
-  getSearch,
-  getEstablishments,
-};
+export { getCategories, getGeocode, getCuisines, getSearch, getEstablishments };

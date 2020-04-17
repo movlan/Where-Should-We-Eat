@@ -156,20 +156,24 @@ class App extends Component {
             exact
             path="/login"
             render={({ history }) => (
-              <LoginPage
-                history={history}
-                handleSignupOrLogin={this.handleSignupOrLogin}
-              />
+              <div className="container">
+                <LoginPage
+                  history={history}
+                  handleSignupOrLogin={this.handleSignupOrLogin}
+                />
+              </div>
             )}
           />
           <Route
             exact
             path="/signup"
             render={({ history }) => (
-              <SignupPage
-                history={history}
-                handleSignupOrLogin={this.handleSignupOrLogin}
-              />
+              <div className="container">
+                <SignupPage
+                  history={history}
+                  handleSignupOrLogin={this.handleSignupOrLogin}
+                />
+              </div>
             )}
           />
         </Switch>
