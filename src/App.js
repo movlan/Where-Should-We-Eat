@@ -17,6 +17,7 @@ import {
   getSearch,
   getEstablishments,
 } from "./services/zomato-api";
+import RestaurantView from "./components/RestaurantView/RestaurantView";
 
 class App extends Component {
   constructor() {
@@ -120,6 +121,7 @@ class App extends Component {
             path="/"
             render={({ history }) => (
               <div className="container">
+                <RestaurantView />
                 <div className="row">
                   <LocalInfo localInfo={this.state.localInfo} />
                   <LocalCategories

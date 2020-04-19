@@ -1,4 +1,5 @@
 import React from "react";
+import CollectionRestaurantView from "../CollectionRestaurantView/CollectionRestaurantView";
 
 export const RestaurantsList = (props) => {
   let removedRestaurants = (
@@ -6,17 +7,22 @@ export const RestaurantsList = (props) => {
       <div className="card">
         <div className="card-content">
           <span className="card-title">Removed Restaurants</span>
-          <div className="collection">
+          <ul className="collection">
             {props.removedRestaurantsList.map((restaurant) => (
-              <p
-                className="collection-item"
+              <CollectionRestaurantView
                 key={restaurant.restaurant.id}
-                onClick={() => props.addRestaurant(restaurant.restaurant.id)}
-              >
-                {restaurant.restaurant.name}
-              </p>
+                restaurant={restaurant}
+                removeRestaurant={props.addRestaurant}
+              />
+              // <p
+              //   className="collection-item"
+              //   key={restaurant.restaurant.id}
+              //   onClick={() => props.addRestaurant(restaurant.restaurant.id)}
+              // >
+              //   {restaurant.restaurant.name}
+              // </p>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </div>
@@ -27,17 +33,22 @@ export const RestaurantsList = (props) => {
       <div className="card">
         <div className="card-content">
           <span className="card-title">List of restaurants</span>
-          <div className="collection">
+          <ul className="collection">
             {props.restaurants.map((restaurant) => (
-              <p
-                className="collection-item"
+              <CollectionRestaurantView
                 key={restaurant.restaurant.id}
-                onClick={() => props.removeRestaurant(restaurant.restaurant.id)}
-              >
-                {restaurant.restaurant.name}
-              </p>
+                restaurant={restaurant}
+                removeRestaurant={props.removeRestaurant}
+              />
+              // <p
+              //   className="collection-item"
+              //   key={restaurant.restaurant.id}
+              //   onClick={() => props.removeRestaurant(restaurant.restaurant.id)}
+              // >
+              //   {restaurant.restaurant.name}
+              // </p>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </div>

@@ -1,13 +1,55 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(247, 247, 247);
+}
+.responsive-img {
+  padding: 1em;
+}
+span.restaurant {
+  color: crimson;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 1.5em;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+span.neighborhood {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+span.establishment {
+  font-weight: initial;
+  text-transform: uppercase;
+  font-size: smaller;
+  color: lightgray;
+}
+
+span.address {
+  font-weight: initial;
+  text-transform: capitalize;
+  font-size: small;
+  color: rgb(168, 168, 168);
+}
+
+p.info {
+  color: rgb(168, 168, 168);
+  font-size: small;
+}
+
+p.info-rest {
+  font-size: small;
+  text-transform: capitalize;
+}
+span.badge.white-text {
+  border-radius: 4px;
+  font-weight: bolder;
+  margin-top: 1em;
+}
+
+ul {
+  margin: 0;
+  margin-left: 2rem;
+}
+
+.brand-logo {
+  font-size: 3vw !important;
 }

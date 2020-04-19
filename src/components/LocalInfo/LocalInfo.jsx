@@ -9,13 +9,11 @@ export const LocalInfo = (props) => {
         <p>City: {props.localInfo.popularity.city}</p>
         <p>Neighborhood: {props.localInfo.popularity.subzone}</p>
         <p>Top cuisines: </p>
-        <div>
+        <ul>
           {props.localInfo.popularity.top_cuisines.map((cuisines, i) => (
-            <span className="collection-item" key={i}>
-              {cuisines}
-            </span>
+            <li key={i}>{cuisines}</li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   ) : (

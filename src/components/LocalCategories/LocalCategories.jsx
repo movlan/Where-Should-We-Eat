@@ -12,11 +12,13 @@ export const LocalCategories = (props) => {
   return (
     <div className="col s12 m6">
       <form onSubmit={handleSubmit}>
-        <br />
-        <select className="browser-default" onChange={(e) => handleChange(e)}>
-          <option value="" disabled selected>
-            Choose Category
-          </option>
+        <label>Category:</label>
+        <select
+          className="browser-default"
+          defaultValue="Choose Category"
+          onChange={(e) => handleChange(e)}
+        >
+          <option disabled>Choose Category</option>
           {props.localCategories.map((cat) => (
             <option
               key={cat.categories.id}
