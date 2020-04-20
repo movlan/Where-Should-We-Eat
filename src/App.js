@@ -17,7 +17,7 @@ import {
   getSearch,
   getEstablishments,
 } from "./services/zomato-api";
-import RestaurantView from "./components/RestaurantView/RestaurantView";
+import { LocalCuisines } from "./components/LocalCuisines/LocalCuisines";
 
 class App extends Component {
   constructor() {
@@ -31,6 +31,7 @@ class App extends Component {
       cuisines: [],
       establishmentId: null,
       categoryId: null,
+      cuisineIds: [],
     };
   }
 
@@ -96,6 +97,8 @@ class App extends Component {
   async componentDidMount() {
     let sidenav = document.querySelector(".sidenav");
     M.Sidenav.init(sidenav, {});
+    var elems = document.querySelectorAll("select.category");
+    M.FormSelect.init(elems);
     const { lat, lon } = await getCurrentLatLon();
     const localInfo = await getGeocode(lat, lon);
     const localCategories = await getCategories(lat, lon);
@@ -120,22 +123,24 @@ class App extends Component {
             exact
             path="/"
             render={({ history }) => (
-              <div className="container">
-                <RestaurantView />
+              <div>
                 <div className="row">
                   <LocalInfo localInfo={this.state.localInfo} />
                   <LocalCategories
                     categoryId={this.state.categoryId}
                     localCategories={this.state.localCategories}
                     selectCategory={this.selectCategory}
-                    restaurants={this.state.restaurants}
                   />
                   <LocalEstablishments
                     establishmentId={this.state.establishmentId}
                     localEstablishments={this.state.establishments}
                     selectEstablishment={this.selectEstablishment}
-                    restaurants={this.state.restaurants}
                   />
+                  {/* <LocalCuisines
+                    cuisineIds={this.state.cuisineIds}
+                    localCuisines={this.state.cuisines}
+                    selectCuisines={this.selectCuisines}
+                  /> */}
                 </div>
                 <RestaurantsList
                   restaurants={this.state.restaurants}

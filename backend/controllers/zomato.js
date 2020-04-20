@@ -43,7 +43,7 @@ function cuisines(req, res) {
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           let data = JSON.parse(body);
-          return res.send(data);
+          return res.send(data.cuisines);
         }
       }
     );
