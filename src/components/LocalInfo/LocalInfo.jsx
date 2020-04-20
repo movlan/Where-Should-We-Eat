@@ -3,7 +3,7 @@ import React from "react";
 export const LocalInfo = (props) => {
   let info = props.localInfo ? (
     <div className="card">
-      <div className="card-content">
+      <div className="card-content white-text bold">
         {/* <div className=""></div> */}
         <span className="card-title">Local Information</span>
         <p>City: {props.localInfo.popularity.city}</p>
@@ -17,7 +17,9 @@ export const LocalInfo = (props) => {
       </div>
     </div>
   ) : (
-    <p>loading...</p>
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
   );
 
   return <div className="col s12">{info}</div>;

@@ -136,11 +136,6 @@ class App extends Component {
                     localEstablishments={this.state.establishments}
                     selectEstablishment={this.selectEstablishment}
                   />
-                  {/* <LocalCuisines
-                    cuisineIds={this.state.cuisineIds}
-                    localCuisines={this.state.cuisines}
-                    selectCuisines={this.selectCuisines}
-                  /> */}
                 </div>
                 <RestaurantsList
                   restaurants={this.state.restaurants}
