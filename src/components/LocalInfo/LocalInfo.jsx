@@ -3,7 +3,7 @@ import React from "react";
 export const LocalInfo = (props) => {
   let info = props.localInfo ? (
     <div className="card">
-      <div className="card-content white-text bold">
+      <div className="card-content">
         {/* <div className=""></div> */}
         <span className="card-title">Local Information</span>
         <p>City: {props.localInfo.popularity.city}</p>
