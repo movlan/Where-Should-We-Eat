@@ -2,11 +2,9 @@
 
 ☐ **App Title**
 
-Where Should We Eat is APP that helps its users to decide where to go out to eat.
-
-1. User selects category, type of place, and cuisines
+1. The user selects category, type of place, and cuisines
 2. Select restaurants that user doesn't like
-3. When there is only one restaurant left that will me the winner restaurant.
+3. When there is only one restaurant left that will be the winner restaurant.
 
 ☐ **Screenshot(s)**
 
