@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const RestaurantView = (props) => {
   let r = 5;
   let hsl = `hsl(${122 - r * 23.6}, ${39 + r * 10.2}%, ${49 + r * 1.8}%)`;
   return (
@@ -61,3 +61,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default RestaurantView;

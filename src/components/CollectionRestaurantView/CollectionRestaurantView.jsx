@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+const CollectionRestaurantView = (props) => {
   let r = props.restaurant.restaurant.user_rating.aggregate_rating
     ? props.restaurant.restaurant.user_rating.aggregate_rating
     : "N/A";
@@ -33,3 +33,5 @@ export default (props) => {
     </li>
   );
 };
+
+export default CollectionRestaurantView;

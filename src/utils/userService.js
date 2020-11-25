@@ -1,48 +1,95 @@
+import axios from "axios";
 import tokenService from "./tokenService";
 
-const BASE_URL = "/users/";
+const BASE_URL = "/users";
 
-function login(creds) {
-  return fetch(BASE_URL + "login", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify(creds),
-  })
-    .then((res) => {
-      // Valid login if we have a status of 2xx (res.ok)
-      if (res.ok) return res.json();
-      throw new Error("Bad Credentials!");
-    })
-    .then(({ token }) => tokenService.setToken(token));
+async function login(creds) {
+  try {
+    const response = await axios.post(BASE_URL + "/login", creds);
+    tokenService.setToken(response.data.token);
+    return response.data.user;
+  } catch (error) {
+    return new Error(error);
+  }
 }
 
-function signup(user) {
-  return fetch(BASE_URL + "signup", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify(user),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
+async function signup(user) {
+  try {
+    const response = await axios.post(BASE_URL, user);
+    tokenService.setToken(response.data.token);
+    return response.data.user;
+  } catch (error) {
+    return new Error(error);
+  }
+}
+
+async function getUser() {
+  try {
+    const response = await axios.get(BASE_URL + "/me", {
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    // no user available with our token so lets delete it
+    tokenService.removeToken();
+  }
+}
+
+async function logout() {
+  try {
+    const response = await axios.post(
+      BASE_URL + "/logout",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${tokenService.getToken()}`,
+        },
       }
-
-      throw new Error("Email already taken!");
-    })
-    .then(({ token }) => tokenService.setToken(token));
+    );
+    tokenService.removeToken();
+    return response.data;
+  } catch (error) {
+    return new Error(error);
+  }
 }
 
-function getUser() {
-  return tokenService.getUserFromToken();
+async function logoutAll() {
+  try {
+    const response = await axios.post(BASE_URL + "/logout/all", {
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+    });
+    tokenService.removeToken();
+    return response.data;
+  } catch (error) {
+    return new Error(error);
+  }
 }
 
-function logout() {
-  tokenService.removeToken();
+// if we have token stored for this site we can log this user
+async function logInWithToken() {
+  const token = tokenService.getToken();
+
+  // no token do nothing
+  if (!token) {
+    return;
+  }
+
+  // token is available lets get user info
+  const user = await getUser();
+  return user;
 }
 
-export default {
+const userService = {
   login,
   signup,
   getUser,
   logout,
+  logoutAll,
+  logInWithToken,
 };
+export default userService;
