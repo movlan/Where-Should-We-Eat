@@ -17,7 +17,7 @@ const NavigationBar = (props) => {
       <NavDropdown title={props.user.name} id="collapsible-nav-dropdown">
         <NavDropdown.Item>
           <LinkContainer to="/profile">
-            <Nav.Link>Profile</Nav.Link>
+            <Nav.Item>Profile</Nav.Item>
           </LinkContainer>
         </NavDropdown.Item>
 
@@ -28,7 +28,7 @@ const NavigationBar = (props) => {
           }}
         >
           <LinkContainer to="/">
-            <Nav.Link>Log Out</Nav.Link>
+            <Nav.Item>Log Out</Nav.Item>
           </LinkContainer>
         </NavDropdown.Item>
       </NavDropdown>

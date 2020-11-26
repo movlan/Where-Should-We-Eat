@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { Route } from "react-router-dom";
-import LoginForm from "./components/LoginForm/LoginForm";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
-import SignupForm from "./components/SignupForm/SignupForm";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import SignupPage from "./pages/SignupPage/SignupPage";
 import userService from "./utils/userService";
 
 class Main extends Component {
@@ -36,22 +37,23 @@ class Main extends Component {
           <Route exact path="/">
             <h1>Main</h1>
           </Route>
-          <Route
-            path="/login"
-            render={({ history }) =>
-              this.state.user ? (
-                <h5>Already logged in</h5>
-              ) : (
-                <LoginForm history={history} setUser={this.setUser} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/signup"
-            render={({ history }) => (
-              <SignupForm history={history} setUser={this.setUser} />
+          <Route path="/login">
+            {this.state.user ? (
+              <h5>Already logged in</h5>
+            ) : (
+              <LoginPage history={this.props.history} setUser={this.setUser} />
             )}
-          ></Route>
+          </Route>
+          <Route path="/signup">
+            <SignupPage history={this.props.history} setUser={this.setUser} />
+          </Route>
+          <Route path="/profile">
+            {this.state.user ? (
+              <ProfilePage user={this.state.user} />
+            ) : (
+              <h5>You must be logged in to view profile</h5>
+            )}
+          </Route>
         </Container>
       </Container>
     );
