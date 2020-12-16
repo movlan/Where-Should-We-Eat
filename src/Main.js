@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import EditProfilePage from "./pages/EditProfilePage/EditProfilePage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import userService from "./utils/userService";
 
@@ -52,6 +53,17 @@ class Main extends Component {
               <ProfilePage user={this.state.user} />
             ) : (
               <h5>You must be logged in to view profile</h5>
+            )}
+          </Route>
+          <Route path="/edit-profile">
+            {this.state.user ? (
+              <EditProfilePage
+                user={this.state.user}
+                setUser={this.setUser}
+                history={this.props.history}
+              />
+            ) : (
+              <h5>You must be logged in to edit profile</h5>
             )}
           </Route>
         </Container>

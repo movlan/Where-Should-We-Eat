@@ -4,44 +4,52 @@ import { LinkContainer } from "react-router-bootstrap";
 
 const ProfileCard = (props) => {
   return (
-    <Col md={8} className="mx-auto mt-5">
+    <Col className="mx-auto mt-5">
       <Card>
-        <Row className="m-l-0 m-r-0">
-          <Col sm={4}>
+        <Row className="h-100">
+          <Col md={4} className="my-auto">
             <Card.Body className="text-center">
               <Image
                 src="https://img.icons8.com/bubbles/100/000000/user.png"
                 rounded
                 alt="user profile image"
               />
-              <h6>{props.user.name}</h6>
             </Card.Body>
           </Col>
-          <Col sm={8}>
+          <Col md={8}>
             <Card.Body>
               <h6>Information</h6>
+              <hr />
               <Row>
-                <Col sm={3}>
+                <Col md={4}>
+                  <p>Name:</p>
+                </Col>
+                <Col md={8}>
+                  <p>{props.user.name}</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={4}>
                   <p>Email:</p>
                 </Col>
-                <Col sm={9}>
+                <Col md={8}>
                   <p>{props.user.email}</p>
                 </Col>
               </Row>
               <Row>
-                <Col sm={3}>
-                  <p>About:</p>
+                <Col md={4}>
+                  <p>Favorites:</p>
                 </Col>
-                <Col sm={9}>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Vitae laudantium aliquid in necessitatibus eaque, quisquam
-                  </p>
+                <Col md={8}>
+                  <p>{props.user.favorites}</p>
                 </Col>
               </Row>
             </Card.Body>
           </Col>
         </Row>
+        <LinkContainer to="/edit-profile">
+          <Card.Link className="ml-auto mr-3">Edit Profile</Card.Link>
+        </LinkContainer>
       </Card>
     </Col>
   );

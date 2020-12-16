@@ -84,12 +84,29 @@ async function logInWithToken() {
   return user;
 }
 
+async function update(updates) {
+  const response = await axios.patch(
+    BASE_URL + "/me",
+    { ...updates },
+    {
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+    }
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return response.status;
+}
+
 const userService = {
   login,
   signup,
   getUser,
   logout,
   logoutAll,
+  update,
   logInWithToken,
 };
 export default userService;
