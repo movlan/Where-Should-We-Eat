@@ -6,7 +6,7 @@ const usersRouter = require("./routers/users");
 const zomatoRouter = require("./routers/api/zomato");
 
 // Load environment variables
-require("dotenv").config();
+require("dotenv").config(/* { path: "../.env" } */);
 
 //load database
 require("./config/database");

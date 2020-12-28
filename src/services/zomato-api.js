@@ -1,3 +1,21 @@
+import axios from "axios";
+
+async function getGeocode(lat, lon) {
+  try {
+    const response = await axios.post("/api/zomato/geocode", { lat, lon });
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+
+  // const info = await fetch("/api/zomato/geocode", {
+  //   method: "POST",
+  //   headers: new Headers({ "Content-Type": "application/json" }),
+  //   body: JSON.stringify({ lat, lon }),
+  // });
+  // if (info) return info.json();
+}
+
 async function getCategories(lat, lon) {
   const categories = await fetch("/api/zomato/categories", {
     method: "POST",
@@ -5,15 +23,6 @@ async function getCategories(lat, lon) {
     body: JSON.stringify({ lat, lon }),
   });
   if (categories) return categories.json();
-}
-
-async function getGeocode(lat, lon) {
-  const info = await fetch("/api/zomato/geocode", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon }),
-  });
-  if (info) return info.json();
 }
 
 async function getCuisines(lat, lon) {

@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  Navbar,
-  InputGroup,
-  FormControl,
-  Button,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Route } from "react-router-dom";
 import userService from "../../utils/userService";
 
 const NavigationBar = (props) => {
@@ -28,7 +20,7 @@ const NavigationBar = (props) => {
           }}
         >
           <LinkContainer to="/">
-            <Nav.Item>Log Out</Nav.Item>
+            <Nav.Item>Logout</Nav.Item>
           </LinkContainer>
         </NavDropdown.Item>
       </NavDropdown>
@@ -36,10 +28,10 @@ const NavigationBar = (props) => {
   ) : (
     <>
       <LinkContainer to="/login">
-        <Nav.Link>Log In</Nav.Link>
+        <Nav.Link>Login</Nav.Link>
       </LinkContainer>
       <LinkContainer to="/signup">
-        <Nav.Link>Sign Up</Nav.Link>
+        <Nav.Link>Signup</Nav.Link>
       </LinkContainer>
     </>
   );
@@ -55,17 +47,6 @@ const NavigationBar = (props) => {
           <Nav className="ml-auto">{userLinks}</Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Route exact path="/">
-        <Navbar>
-          <InputGroup>
-            <InputGroup.Append>
-              <FormControl placeholder={"Current City"} />
-            </InputGroup.Append>
-            <FormControl className="mr-sm-2" placeholder="Restaurants" />
-            <Button>Search</Button>
-          </InputGroup>
-        </Navbar>
-      </Route>
     </>
   );
 };

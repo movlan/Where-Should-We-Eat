@@ -7,12 +7,17 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage/EditProfilePage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import userService from "./utils/userService";
+import MainPage from "./pages/MainPage/MainPage";
+import { getCurrentLatLon } from "./services/geolocation";
+import { getGeocode } from "./services/zomato-api";
 
 class Main extends Component {
   constructor() {
     super();
     this.state = {
       user: undefined,
+      location: undefined,
+      localInfo: undefined,
     };
   }
 
@@ -22,12 +27,23 @@ class Main extends Component {
     });
   };
 
-  componentDidMount() {
+  async componentDidUpdate() {}
+
+  async componentDidMount() {
+    // add user if user is logged in
     if (!this.state.user) {
       userService.logInWithToken().then((user) => {
         this.setUser(user);
       });
     }
+
+    //get location data form browser
+    getCurrentLatLon().then((location) => {
+      this.setState({ location });
+      getGeocode(location.lat, location.lon).then((localInfo) => {
+        this.setState({ localInfo });
+      });
+    });
   }
 
   render() {
@@ -36,7 +52,7 @@ class Main extends Component {
         <NavigationBar setUser={this.setUser} user={this.state.user} />
         <Container fluid>
           <Route exact path="/">
-            <h1>Main</h1>
+            <MainPage localInfo={this.state.localInfo} />
           </Route>
           <Route path="/login">
             {this.state.user ? (
