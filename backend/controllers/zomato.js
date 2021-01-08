@@ -14,6 +14,16 @@ async function geocode(req, res) {
   }
 }
 
+async function restaurant(req, res) {
+  try {
+    const url = `${REQ_URL}restaurant?res_id=${req.params.id}`;
+    const response = await axios.get(url, { headers: { "user-key": KEY } });
+    res.send(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function categories(req, res) {
   try {
     const url = `${REQ_URL}categories?lat=${req.body.lat}&lon=${req.body.lon}`;
@@ -88,4 +98,5 @@ module.exports = {
   cuisines,
   search,
   establishments,
+  restaurant,
 };

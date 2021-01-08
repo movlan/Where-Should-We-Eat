@@ -7,5 +7,6 @@ router.post("/geocode", zomatoCtrl.geocode);
 router.post("/cuisines", zomatoCtrl.cuisines);
 router.post("/search", zomatoCtrl.search);
 router.post("/establishments", zomatoCtrl.establishments);
+router.post("/restaurant/:id", zomatoCtrl.restaurant);
 
 module.exports = router;

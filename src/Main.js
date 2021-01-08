@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { Route } from "react-router-dom";
+
+import MainPage from "./pages/MainPage/MainPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import NavigationBar from "./components/NavigationBar/NavigationBar";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage/EditProfilePage";
 import SignupPage from "./pages/SignupPage/SignupPage";
+import RestaurantView from "./pages/RestaurantView/RestaurantView";
+
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 import userService from "./utils/userService";
-import MainPage from "./pages/MainPage/MainPage";
 import { getCurrentLatLon } from "./services/geolocation";
 import { getGeocode } from "./services/zomato-api";
 
@@ -16,8 +19,8 @@ class Main extends Component {
     super();
     this.state = {
       user: undefined,
-      location: undefined,
-      localInfo: undefined,
+      locationInformation: undefined,
+      localRestaurantInfo: undefined,
     };
   }
 
@@ -27,23 +30,26 @@ class Main extends Component {
     });
   };
 
-  async componentDidUpdate() {}
-
   async componentDidMount() {
     // add user if user is logged in
     if (!this.state.user) {
-      userService.logInWithToken().then((user) => {
-        this.setUser(user);
-      });
+      const user = await userService.logInWithToken();
+      this.setUser(user);
     }
 
     //get location data form browser
-    getCurrentLatLon().then((location) => {
-      this.setState({ location });
-      getGeocode(location.lat, location.lon).then((localInfo) => {
-        this.setState({ localInfo });
-      });
-    });
+    const data = await getCurrentLatLon();
+    const locationInformation = {
+      lat: data.latitude,
+      lon: data.longitude,
+      city: data.city,
+    };
+    this.setState({ locationInformation });
+
+    // get local restaurants information from
+    const localRestaurants = await getGeocode(data.latitude, data.longitude);
+
+    this.setState({ localRestaurantInfo: localRestaurants.data });
   }
 
   render() {
@@ -52,7 +58,10 @@ class Main extends Component {
         <NavigationBar setUser={this.setUser} user={this.state.user} />
         <Container fluid>
           <Route exact path="/">
-            <MainPage localInfo={this.state.localInfo} />
+            <MainPage
+              localRestaurantInfo={this.state.localRestaurantInfo}
+              locationInformation={this.state.locationInformation}
+            />
           </Route>
           <Route path="/login">
             {this.state.user ? (
@@ -81,6 +90,11 @@ class Main extends Component {
             ) : (
               <h5>You must be logged in to edit profile</h5>
             )}
+          </Route>
+          <Route path="/restaurants/:id">
+            <RestaurantView
+              id={this.props.history.location.pathname.split("/")[2]}
+            />
           </Route>
         </Container>
       </Container>
