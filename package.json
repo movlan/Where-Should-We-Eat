@@ -1,6 +1,9 @@
 {
   "name": "where-should-we-eat",
   "version": "0.1.0",
+  "engines": {
+    "node": "15.0.1"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
