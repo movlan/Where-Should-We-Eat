@@ -1,16 +1,55 @@
 import React from "react";
 import { Col, Container, Row, Image, Spinner, Button } from "react-bootstrap";
+import { FaDirections, FaStar, FaPhone } from "react-icons/fa";
+
 import { getRestaurant } from "../../services/zomato-api";
-import { FaDirections } from "react-icons/fa";
+import userService from "../../utils/userService";
 
 class RestaurantView extends React.Component {
-  state = { restaurant: null };
+  constructor(props) {
+    super(props);
+    this.state = { restaurant: null };
+  }
+
+  locationUrl = "";
 
   componentDidMount() {
     getRestaurant(this.props.id).then((response) => {
       this.setState({ restaurant: response.data });
-      console.log(response.data);
     });
+  }
+
+  async handleAddFavorite(id) {
+    const responce = await userService.addFavorite(id);
+    this.props.setUser(responce);
+  }
+
+  async handleRemoveFavorite(id) {
+    const responce = await userService.removeFavorite(id);
+    this.props.setUser(responce);
+  }
+
+  favoriteBtn() {
+    return this.props.user ? (
+      this.props.user.favorites.includes(this.props.id) ? (
+        <Button
+          style={{ backgroundColor: "#CD5C5C" }}
+          onClick={() => this.handleRemoveFavorite(this.props.id)}
+        >
+          <FaStar />
+          {"  "}Remove from Favorite
+        </Button>
+      ) : (
+        <Button
+          variant="outline-secondary"
+          onClick={() => this.handleAddFavorite(this.props.id)}
+        >
+          <FaStar color="IndianRed" />
+          {"  "}
+          Add to Favorite
+        </Button>
+      )
+    ) : null;
   }
 
   render() {
@@ -25,12 +64,34 @@ class RestaurantView extends React.Component {
               {" - "}
               {this.state.restaurant.cuisines}
             </h3>
-            <Button variant="outline-secondary">
-              <FaDirections />
-              {"  "}
-              Directions
-            </Button>{" "}
-            <Button variant="outline-secondary">Secondary</Button>{" "}
+            <h5>{this.state.restaurant.location.locality}</h5>
+            <h6>Address: {this.state.restaurant.location.address}</h6>
+            <h6>Hours: {this.state.restaurant.timings}</h6>
+            <div className="mt-3">
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href={
+                  this.state.restaurant.location.latitude === "0.0000000000"
+                    ? `https://www.google.com/maps/search/?api=1&query=${this.state.restaurant.name}`
+                    : `https://www.google.com/maps/dir/?api=1&destination=${this.state.restaurant.location.latitude},${this.state.restaurant.location.longitude}`
+                }
+              >
+                <Button variant="outline-secondary">
+                  <FaDirections color="IndianRed" />
+                  {"  "}
+                  Directions
+                </Button>
+              </a>{" "}
+              <a href={`tel:${this.state.restaurant.phone_numbers}`}>
+                <Button variant="outline-secondary">
+                  <FaPhone color="IndianRed" />
+                  {"  "}
+                  Call
+                </Button>
+              </a>{" "}
+              {this.favoriteBtn()}
+            </div>
           </Col>
         </Row>
       </Container>

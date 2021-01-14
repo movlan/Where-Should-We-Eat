@@ -56,37 +56,36 @@ function cuisines(req, res) {
   }
 }
 
-function search(req, res) {
+async function searchRestaurant(req, res) {
   try {
-    let count = 20;
-    const url = `${REQ_URL}search?lat=${req.body.lat}&lon=${req.body.lon}&category=${req.body.category}&count=${count}&establishment_type=${req.body.establishment}`;
-    console.log(url);
-    axios.get(
-      { url, headers: { Accept: "application/json", "user-key": KEY } },
-      function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-          let data = JSON.parse(body);
-          return res.send(data.restaurants);
-        }
-      }
-    );
+    console.log(req.body);
+    const url = `${REQ_URL}search?entity_id=${req.body.city_id}&entity_type=city&q=${req.body.query}`;
+    const response = await axios.get(url, { headers: { "user-key": KEY } });
+
+    console.log(response.data);
+
+    res.send(response.data);
   } catch (err) {
     console.log(err);
   }
 }
 
-function establishments(req, res) {
+async function searchCity(req, res) {
   try {
-    const url = `${REQ_URL}establishments?lat=${req.body.lat}&lon=${req.body.lon}`;
-    axios.get(
-      { url, headers: { Accept: "application/json", "user-key": KEY } },
-      function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-          let data = JSON.parse(body);
-          return res.send(data.establishments);
-        }
-      }
-    );
+    const url = `${REQ_URL}cities?q=${req.body.query}`;
+    const response = await axios.get(url, { headers: { "user-key": KEY } });
+    res.send(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function restaurants(req, res) {
+  try {
+    const url = `${REQ_URL}search?entity_id=${req.body.city_id}&entity_type=city`;
+    const restaurants = await axios.get(url, { headers: { "user-key": KEY } });
+
+    res.send(restaurants.data);
   } catch (err) {
     console.log(err);
   }
@@ -96,7 +95,8 @@ module.exports = {
   categories,
   geocode,
   cuisines,
-  search,
-  establishments,
+  searchRestaurant,
+  searchCity,
+  restaurants,
   restaurant,
 };

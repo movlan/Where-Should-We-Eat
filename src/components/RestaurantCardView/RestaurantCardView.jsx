@@ -16,7 +16,11 @@ const RestaurantCardView = (props) => {
           <Row>
             <Col sm={3}>
               <Card.Img
-                src={props.restaurant.thumb}
+                src={
+                  props.restaurant.thumb === ""
+                    ? `${window.location.origin}/placeholder_200.webp`
+                    : props.restaurant.thumb
+                }
                 alt="Image of restaurant"
                 style={{ maxWidth: "180px" }}
               />

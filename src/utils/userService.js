@@ -100,6 +100,38 @@ async function update(updates) {
   return response.status;
 }
 
+async function addFavorite(id) {
+  const response = await axios.patch(
+    BASE_URL + "/favorite",
+    { favID: id },
+    {
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+    }
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return response.status;
+}
+
+async function removeFavorite(id) {
+  const response = await axios.patch(
+    BASE_URL + "/remove-favorite",
+    { favID: id },
+    {
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+      },
+    }
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return response.status;
+}
+
 const userService = {
   login,
   signup,
@@ -108,5 +140,7 @@ const userService = {
   logoutAll,
   update,
   logInWithToken,
+  addFavorite,
+  removeFavorite,
 };
 export default userService;

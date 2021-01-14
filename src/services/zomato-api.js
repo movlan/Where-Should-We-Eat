@@ -35,16 +35,24 @@ async function getCuisines(lat, lon) {
 async function getSearchCity(query) {
   const results = await axios.post("/api/zomato/search/city", { query });
 
-  if (results) return results;
+  if (results.data) return results.data.location_suggestions;
+  throw new Error("City was not found");
 }
 
-async function getEstablishments(lat, lon) {
-  const establishments = await fetch("/api/zomato/establishments", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon }),
+async function getSearchRestaurant(city_id, query) {
+  const results = await axios.post("/api/zomato/search/restaurant", {
+    city_id,
+    query,
   });
-  if (establishments) return establishments.json();
+
+  if (results.data.restaurants) return results.data.restaurants;
+  throw new Error("Restaurant was not found");
+}
+
+async function getRestaurantsByCityId(city_id) {
+  const restaurants = await axios.post("/api/zomato/restaurants", { city_id });
+
+  if (restaurants) return restaurants.data;
 }
 
 export {
@@ -52,6 +60,7 @@ export {
   getGeocode,
   getCuisines,
   getSearchCity,
-  getEstablishments,
+  getSearchRestaurant,
+  getRestaurantsByCityId,
   getRestaurant,
 };

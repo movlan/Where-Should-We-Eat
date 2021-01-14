@@ -11,5 +11,7 @@ router.get("/me", auth, usersCtrl.myProfile);
 router.get("/:id", usersCtrl.getUserById);
 router.patch("/me", auth, usersCtrl.update);
 router.delete("/me", auth, usersCtrl.delete);
+router.patch("/favorite", auth, usersCtrl.addFavorite);
+router.patch("/remove-favorite", auth, usersCtrl.removeFavorite);
 
 module.exports = router;

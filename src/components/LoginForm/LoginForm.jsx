@@ -20,7 +20,7 @@ class LoginForm extends Component {
     try {
       const user = await userService.login(this.state);
       this.props.setUser(user);
-      this.props.history.push("/");
+      this.props.history.goBack();
     } catch (err) {
       console.log(err);
     }
@@ -50,6 +50,7 @@ class LoginForm extends Component {
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  autoComplete="on"
                   type="password"
                   placeholder="Password"
                   value={this.state.password}

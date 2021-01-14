@@ -35,7 +35,7 @@ const logout = async (req, res) => {
     await req.user.save();
 
     res.send();
-  } catch (error) {
+  } catch (err) {
     res.status(500).send();
   }
 };
@@ -48,7 +48,7 @@ const logoutAll = async (req, res) => {
     await req.user.save();
 
     res.send();
-  } catch (error) {
+  } catch (err) {
     res.status(500).send();
   }
 };
@@ -57,7 +57,7 @@ const myProfile = async (req, res) => {
   try {
     // since we pass auth we should have user available in request return it
     res.send(req.user);
-  } catch (error) {
+  } catch (err) {
     req.send();
   }
 };
@@ -80,8 +80,8 @@ const update = async (req, res) => {
     updates.forEach((update) => (req.user[update] = req.body[update]));
     await req.user.save();
     res.send(req.user);
-  } catch (error) {
-    res.status(400).send(error);
+  } catch (err) {
+    res.status(400).send(err);
   }
 };
 
@@ -89,7 +89,7 @@ const deleteUser = async (req, res) => {
   try {
     await req.user.remove();
     res.send(req.user);
-  } catch (error) {
+  } catch (err) {
     res.status(500).send();
   }
 };
@@ -102,8 +102,38 @@ const getUserById = async (req, res) => {
     }
 
     res.send(user);
-  } catch (error) {
-    res.status(500).send(error);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const addFavorite = async (req, res) => {
+  try {
+    if (!req.user.favorites.includes(req.body.favID)) {
+      req.user.favorites.push(req.body.favID);
+      await req.user.save();
+    }
+
+    res.send(req.user);
+  } catch (err) {
+    res.send(err);
+  }
+};
+
+const removeFavorite = async (req, res) => {
+  try {
+    if (req.user.favorites.includes(req.body.favID)) {
+      const filtered = req.user.favorites.filter((el) => {
+        return el !== req.body.favID;
+      });
+      req.user.favorites = filtered;
+
+      await req.user.save();
+    }
+
+    res.send(req.user);
+  } catch (err) {
+    res.send(err);
   }
 };
 
@@ -116,4 +146,6 @@ module.exports = {
   getUserById,
   update,
   delete: deleteUser,
+  addFavorite,
+  removeFavorite,
 };

@@ -12,15 +12,15 @@ import RestaurantView from "./pages/RestaurantView/RestaurantView";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import userService from "./utils/userService";
 import { getCurrentLatLon } from "./services/geolocation";
-import { getGeocode } from "./services/zomato-api";
+import { getGeocode, getRestaurantsByCityId } from "./services/zomato-api";
 
 class Main extends Component {
   constructor() {
     super();
     this.state = {
       user: undefined,
-      locationInformation: undefined,
-      localRestaurantInfo: undefined,
+      city: undefined,
+      restaurants: undefined,
     };
   }
 
@@ -37,19 +37,37 @@ class Main extends Component {
       this.setUser(user);
     }
 
-    //get location data form browser
+    //get lat and lon
     const data = await getCurrentLatLon();
-    const locationInformation = {
-      lat: data.latitude,
-      lon: data.longitude,
-      city: data.city,
+
+    // get local information from particularly we are looking for city_id
+    const localInfo = await getGeocode(data.latitude, data.longitude);
+    const restaurants = await getRestaurantsByCityId(
+      localInfo.data.location.city_id
+    );
+
+    this.setState({
+      city: {
+        id: localInfo.data.location.city_id,
+        name: localInfo.data.location.city_name,
+      },
+      restaurants: restaurants.restaurants,
+    });
+  }
+
+  async handleCitySearch(city_id) {
+    const restaurants = await getRestaurantsByCityId(city_id);
+
+    const city = {
+      id: city_id,
+      name: restaurants.restaurants[0].restaurant.location.city,
     };
-    this.setState({ locationInformation });
 
-    // get local restaurants information from
-    const localRestaurants = await getGeocode(data.latitude, data.longitude);
+    this.setState({ restaurants: restaurants.restaurants, city });
+  }
 
-    this.setState({ localRestaurantInfo: localRestaurants.data });
+  handleRestaurantSearch(res_id) {
+    this.props.history.push(`/restaurants/${res_id}`);
   }
 
   render() {
@@ -59,15 +77,21 @@ class Main extends Component {
         <Container fluid>
           <Route exact path="/">
             <MainPage
-              localRestaurantInfo={this.state.localRestaurantInfo}
-              locationInformation={this.state.locationInformation}
+              restaurants={this.state.restaurants}
+              city={this.state.city}
+              handleCitySearch={(id) => this.handleCitySearch(id)}
+              handleRestaurantSearch={(id) => this.handleRestaurantSearch(id)}
             />
           </Route>
           <Route path="/login">
             {this.state.user ? (
               <h5>Already logged in</h5>
             ) : (
-              <LoginPage history={this.props.history} setUser={this.setUser} />
+              <LoginPage
+                history={this.props.history}
+                setUser={this.setUser}
+                currentPage={this.props.location.pathname}
+              />
             )}
           </Route>
           <Route path="/signup">
@@ -94,6 +118,8 @@ class Main extends Component {
           <Route path="/restaurants/:id">
             <RestaurantView
               id={this.props.history.location.pathname.split("/")[2]}
+              user={this.state.user}
+              setUser={(user) => this.setUser(user)}
             />
           </Route>
         </Container>
