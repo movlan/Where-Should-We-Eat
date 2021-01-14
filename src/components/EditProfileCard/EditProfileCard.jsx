@@ -3,10 +3,10 @@ import { Button, Card, Col, Form } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import userService from "../../utils/userService";
 
-class SignupForm extends Component {
+class EditProfileCard extends Component {
   state = {
-    name: "",
-    email: "",
+    name: this.props.user.name,
+    email: this.props.user.email,
     password: "",
     passwordConfirmation: "",
   };
@@ -20,9 +20,16 @@ class SignupForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await userService.signup(this.state);
+      const updateData = { name: this.state.name, email: this.state.email };
+      if (
+        this.state.password !== "" &&
+        this.state.passwordConfirmation !== ""
+      ) {
+        updateData.password = this.state.password;
+      }
+      const user = await userService.update(updateData);
       this.props.setUser(user);
-      this.props.history.push("/");
+      this.props.history.push("/profile");
     } catch (err) {
       console.log(err);
     }
@@ -32,8 +39,8 @@ class SignupForm extends Component {
     return !(
       this.state.name &&
       this.state.email &&
-      this.state.password !== "" &&
-      this.state.password === this.state.passwordConfirmation
+      (this.state.password === "" ||
+        this.state.password === this.state.passwordConfirmation)
     );
   }
 
@@ -42,7 +49,7 @@ class SignupForm extends Component {
       <Col md={8} className="mx-auto mt-5">
         <Card>
           <Card.Body>
-            <Card.Title>Sign Up</Card.Title>
+            <Card.Title>Edit Profile</Card.Title>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group>
                 <Form.Label>Name</Form.Label>
@@ -89,7 +96,7 @@ class SignupForm extends Component {
                 disabled={this.isFormInvalid()}
                 type="submit"
               >
-                Sign Up
+                Save
               </Button>
 
               <LinkContainer to="/">
@@ -105,4 +112,4 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+export default EditProfileCard;

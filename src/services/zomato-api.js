@@ -1,3 +1,19 @@
+import axios from "axios";
+
+async function getGeocode(lat, lon) {
+  try {
+    const response = await axios.post("/api/zomato/geocode", { lat, lon });
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getRestaurant(id) {
+  const restaurant = await axios.post(`/api/zomato/restaurant/${id}`);
+  return restaurant;
+}
+
 async function getCategories(lat, lon) {
   const categories = await fetch("/api/zomato/categories", {
     method: "POST",
@@ -5,15 +21,6 @@ async function getCategories(lat, lon) {
     body: JSON.stringify({ lat, lon }),
   });
   if (categories) return categories.json();
-}
-
-async function getGeocode(lat, lon) {
-  const info = await fetch("/api/zomato/geocode", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon }),
-  });
-  if (info) return info.json();
 }
 
 async function getCuisines(lat, lon) {
@@ -25,22 +32,35 @@ async function getCuisines(lat, lon) {
   if (cuisines) return cuisines.json();
 }
 
-async function getSearch(lat, lon, establishment, category) {
-  const restaurants = await fetch("/api/zomato/search", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon, establishment, category }),
-  });
-  if (restaurants) return restaurants.json();
+async function getSearchCity(query) {
+  const results = await axios.post("/api/zomato/search/city", { query });
+
+  if (results.data) return results.data.location_suggestions;
+  throw new Error("City was not found");
 }
 
-async function getEstablishments(lat, lon) {
-  const establishments = await fetch("/api/zomato/establishments", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify({ lat, lon }),
+async function getSearchRestaurant(city_id, query) {
+  const results = await axios.post("/api/zomato/search/restaurant", {
+    city_id,
+    query,
   });
-  if (establishments) return establishments.json();
+
+  if (results.data.restaurants) return results.data.restaurants;
+  throw new Error("Restaurant was not found");
 }
 
-export { getCategories, getGeocode, getCuisines, getSearch, getEstablishments };
+async function getRestaurantsByCityId(city_id) {
+  const restaurants = await axios.post("/api/zomato/restaurants", { city_id });
+
+  if (restaurants) return restaurants.data;
+}
+
+export {
+  getCategories,
+  getGeocode,
+  getCuisines,
+  getSearchCity,
+  getSearchRestaurant,
+  getRestaurantsByCityId,
+  getRestaurant,
+};

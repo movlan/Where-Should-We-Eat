@@ -3,12 +3,10 @@ import { Button, Card, Col, Form } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import userService from "../../utils/userService";
 
-class SignupForm extends Component {
+class LoginForm extends Component {
   state = {
-    name: "",
     email: "",
     password: "",
-    passwordConfirmation: "",
   };
 
   handleChange = (e) => {
@@ -20,21 +18,16 @@ class SignupForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await userService.signup(this.state);
+      const user = await userService.login(this.state);
       this.props.setUser(user);
-      this.props.history.push("/");
+      this.props.history.goBack();
     } catch (err) {
       console.log(err);
     }
   };
 
   isFormInvalid() {
-    return !(
-      this.state.name &&
-      this.state.email &&
-      this.state.password !== "" &&
-      this.state.password === this.state.passwordConfirmation
-    );
+    return !(this.state.email && this.state.password !== "");
   }
 
   render() {
@@ -42,18 +35,8 @@ class SignupForm extends Component {
       <Col md={8} className="mx-auto mt-5">
         <Card>
           <Card.Body>
-            <Card.Title>Sign Up</Card.Title>
+            <Card.Title>Login</Card.Title>
             <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Name"
-                  value={this.state.name}
-                  name="name"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
               <Form.Group>
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -67,6 +50,7 @@ class SignupForm extends Component {
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  autoComplete="on"
                   type="password"
                   placeholder="Password"
                   value={this.state.password}
@@ -74,22 +58,13 @@ class SignupForm extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={this.state.passwordConfirmation}
-                  name="passwordConfirmation"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
+
               <Button
                 className="btn"
                 disabled={this.isFormInvalid()}
                 type="submit"
               >
-                Sign Up
+                Login
               </Button>
 
               <LinkContainer to="/">
@@ -105,4 +80,4 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+export default LoginForm;
