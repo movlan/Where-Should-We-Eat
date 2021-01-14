@@ -52,7 +52,7 @@ async function getSearchRestaurant(city_id, query) {
 async function getRestaurantsByCityId(city_id) {
   const restaurants = await axios.post("/api/zomato/restaurants", { city_id });
 
-  if (restaurants) return restaurants.data;
+  if (restaurants.data) return restaurants.data;
 }
 
 export {

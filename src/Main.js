@@ -42,6 +42,7 @@ class Main extends Component {
 
     // get local information from particularly we are looking for city_id
     const localInfo = await getGeocode(data.latitude, data.longitude);
+
     const restaurants = await getRestaurantsByCityId(
       localInfo.data.location.city_id
     );

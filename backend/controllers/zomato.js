@@ -58,11 +58,8 @@ function cuisines(req, res) {
 
 async function searchRestaurant(req, res) {
   try {
-    console.log(req.body);
     const url = `${REQ_URL}search?entity_id=${req.body.city_id}&entity_type=city&q=${req.body.query}`;
     const response = await axios.get(url, { headers: { "user-key": KEY } });
-
-    console.log(response.data);
 
     res.send(response.data);
   } catch (err) {

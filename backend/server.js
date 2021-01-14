@@ -27,9 +27,9 @@ app.use("/users", usersRouter);
 app.use("/api/zomato", zomatoRouter);
 
 // this here serves the React app
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 // Listen
 app.listen(port, function () {

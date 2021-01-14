@@ -54,7 +54,6 @@ class SearchBar extends React.Component {
           onSearch={(query) => {
             this.setState({ isLoading: true });
             getSearchRestaurant(this.props.city.id, query).then((resp) => {
-              console.log(resp);
               this.setState({
                 isRestaurantLoading: false,
                 restaurantOptions: resp,
