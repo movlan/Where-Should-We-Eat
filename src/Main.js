@@ -38,10 +38,13 @@ class Main extends Component {
     }
 
     //get lat and lon
-    const data = await getCurrentLatLon();
+    const locationData = await getCurrentLatLon();
 
     // get local information from particularly we are looking for city_id
-    const localInfo = await getGeocode(data.latitude, data.longitude);
+    const localInfo = await getGeocode(
+      locationData.latitude,
+      locationData.longitude
+    );
 
     const restaurants = await getRestaurantsByCityId(
       localInfo.data.location.city_id
