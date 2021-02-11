@@ -1,23 +1,38 @@
-import publicIp from "public-ip";
-import ipLocation from "iplocation";
+import axios from "axios";
 
-export function getBrowserLocation() {
-  // Wrap getCurrentPosition to return a promise
-  return new Promise((resolve) => {
-    navigator.geolocation.getCurrentPosition((pos) =>
-      resolve({
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
-      })
-    );
-  });
-}
+const getBrowserLocation = () => {
+  return new Promise(
+    (resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) =>
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }),
+        (err) => resolve(undefined)
+      );
+    },
+    (reject) => reject(undefined)
+  );
+};
 
 export const getCurrentLatLon = async () => {
-  const ip = await publicIp.v4({
-    fallbackUrls: ["https://ifconfig.co/ip"],
-  });
-  const location = await ipLocation(ip);
+  const browserLocation = await getBrowserLocation();
 
-  return location;
+  const ipRequest = await axios.get("https://api.ipify.org/?format=json");
+
+  const ip = ipRequest.data.ip;
+
+  const locationRequest = await axios.get(`https://ipapi.co/${ip}/json/`);
+
+  const ipLocationData = {
+    latitude: locationRequest.data.latitude,
+    longitude: locationRequest.data.longitude,
+  };
+
+  if (browserLocation) {
+    return browserLocation;
+  } else {
+    return ipLocationData;
+  }
 };
