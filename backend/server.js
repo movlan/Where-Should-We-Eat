@@ -16,11 +16,17 @@ require("./config/database");
 // Get port variable from env
 const port = process.env.PORT || 3001;
 
+// cors add options
+var corsOptions = {
+  origin: "https://wswe-app.herokuapp.com/",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(favicon(path.join(__dirname, "../build", "favicon.ico")));
 app.use(express.static(path.join(__dirname, "../build")));
