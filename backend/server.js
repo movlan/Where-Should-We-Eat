@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
+const cors = require("cors");
+
 const usersRouter = require("./routers/users");
 const zomatoRouter = require("./routers/api/zomato");
 
@@ -18,6 +20,7 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cors());
 
 app.use(favicon(path.join(__dirname, "../build", "favicon.ico")));
 app.use(express.static(path.join(__dirname, "../build")));
