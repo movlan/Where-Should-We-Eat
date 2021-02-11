@@ -19,20 +19,21 @@ const getBrowserLocation = () => {
 export const getCurrentLatLon = async () => {
   const browserLocation = await getBrowserLocation();
 
-  const ipRequest = await axios.get("https://api.ipify.org/?format=json");
+  /*** Cant figure out how to make this request while deployed to heroku ***/
+  // const ipRequest = await axios.get("https://api.ipify.org/?format=json");
 
-  const ip = ipRequest.data.ip;
+  // const ip = ipRequest.data.ip;
 
-  const locationRequest = await axios.get(`https://ipapi.co/${ip}/json/`);
+  // const locationRequest = await axios.get(`https://ipapi.co/${ip}/json/`);
 
-  const ipLocationData = {
-    latitude: locationRequest.data.latitude,
-    longitude: locationRequest.data.longitude,
+  const ipLocationDefaultData = {
+    latitude: 39.7392,
+    longitude: -104.9903,
   };
 
   if (browserLocation) {
     return browserLocation;
   } else {
-    return ipLocationData;
+    return ipLocationDefaultData;
   }
 };
