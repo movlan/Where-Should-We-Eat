@@ -22,7 +22,7 @@ class SearchBar extends React.Component {
           <AsyncTypeahead
             id="Search Cities"
             onChange={(selected) => {
-              if (selected[0].id) this.props.handleCitySearch(selected[0].id);
+              if (selected[0]) this.props.handleCitySearch(selected[0].id);
             }}
             placeholder={this.city()}
             isLoading={this.state.isCityLoading}
