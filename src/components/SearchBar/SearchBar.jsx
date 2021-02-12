@@ -41,6 +41,7 @@ class SearchBar extends React.Component {
         </InputGroup.Append>
         <AsyncTypeahead
           className="mr-sm-2"
+          style={{ flex: "1 1 auto" }}
           placeholder="Restaurants"
           id="Search Restaurants"
           onChange={(selected) => {
